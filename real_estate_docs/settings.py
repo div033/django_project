@@ -26,7 +26,16 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-+03a%q*7w%_rux
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = [
+    '.onrender.com',  # Allows all subdomains of onrender.com
+    'localhost',
+    '127.0.0.1'
+]
+
+# Add CSRF trusted origins for your Render domain
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com'
+]
 
 # Application definition
 INSTALLED_APPS = [

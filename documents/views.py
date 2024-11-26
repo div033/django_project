@@ -7,6 +7,20 @@ from django.shortcuts import get_object_or_404
 from .models import Document, Property
 from .serializers import DocumentSerializer, PropertySerializer
 
+from django.views.generic import RedirectView
+from django.http import HttpResponse
+
+def api_root(request):
+    return JsonResponse({
+        'status': 'ok',
+        'message': 'Real Estate Documents API is running',
+        'endpoints': {
+            'documents': '/api/documents/',
+            'properties': '/api/properties/',
+            'admin': '/admin/'
+        }
+    })
+
 class DocumentViewSet(viewsets.ModelViewSet):
     serializer_class = DocumentSerializer
     permission_classes = [IsAuthenticated]
