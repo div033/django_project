@@ -85,7 +85,18 @@ WSGI_APPLICATION = 'real_estate_docs.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-if DEBUG:
+if os.environ.get('DATABASE_URL'):
+    # Use Neon database URL in production
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True
+        )
+    }
+else:
+    # Use local Docker database for development
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -95,15 +106,6 @@ if DEBUG:
             'HOST': os.environ.get('DB_HOST', 'db'),
             'PORT': os.environ.get('DB_PORT', '5432'),
         }
-    }
-else:
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
-            conn_max_age=600,
-            conn_health_checks=True,
-            ssl_require=True
-        )
     }
 
 # AWS Settings
