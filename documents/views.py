@@ -9,6 +9,11 @@ from .serializers import DocumentSerializer, PropertySerializer
 
 from django.views.generic import RedirectView
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def health_check(request):
+    return HttpResponse("API is running", content_type="text/plain")
 
 def api_root(request):
     return JsonResponse({

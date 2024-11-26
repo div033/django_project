@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-+03a%q*7w%_ruxtu41_t1des4rhnijf*e-lqb11doqki(8&m_!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = True #os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
     '.onrender.com',  # Allows all subdomains of onrender.com
@@ -137,3 +137,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # File upload settings
 MAX_UPLOAD_SIZE = 5242880
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'ERROR',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
