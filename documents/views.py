@@ -55,3 +55,7 @@ class DocumentViewSet(viewsets.ModelViewSet):
 class PropertyViewSet(viewsets.ModelViewSet):
     serializer_class = PropertySerializer
     queryset = Property.objects.all()  # Show all properties
+
+    def perform_create(self, serializer):
+        # Save without an owner
+        serializer.save(owner=None)
