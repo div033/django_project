@@ -5,11 +5,7 @@ class Property(models.Model):
     address = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = 'Property'
-        verbose_name_plural = 'Properties'
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # Make owner optional
 
     def __str__(self):
         return self.address
@@ -28,8 +24,8 @@ class Document(models.Model):
     file = models.FileField(upload_to='property_documents/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    file_size = models.IntegerField()  # in bytes
+    uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # Make uploaded_by optional
+    file_size = models.IntegerField()
     mime_type = models.CharField(max_length=100)
 
     def __str__(self):

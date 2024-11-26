@@ -14,7 +14,7 @@ class DocumentSerializer(serializers.ModelSerializer):
         fields = ['id', 'property', 'title', 'document_type', 'file', 
                  'uploaded_at', 'updated_at', 'file_size', 'mime_type', 
                  'download_url']
-        read_only_fields = ['uploaded_by', 'file_size', 'mime_type', 'download_url']
+        read_only_fields = ['file_size', 'mime_type', 'download_url']
 
     def get_download_url(self, obj):
         request = self.context.get('request')
