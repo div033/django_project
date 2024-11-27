@@ -21,7 +21,7 @@ class Document(models.Model):
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='documents', null=True, blank=True)  # Made optional
+    property_id = models.UUIDField(null=True, blank=True)
     title = models.CharField(max_length=255)
     document_type = models.CharField(max_length=20, choices=DOCUMENT_TYPES)
     file = models.FileField(upload_to='property_documents/')
