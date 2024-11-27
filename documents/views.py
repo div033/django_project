@@ -27,8 +27,8 @@ def api_root(request):
     })
 
 class DocumentViewSet(viewsets.ModelViewSet):
+    queryset = Document.objects.all()
     serializer_class = DocumentSerializer
-    queryset = Document.objects.all()  # Show all documents
 
     def perform_create(self, serializer):
         file_obj = self.request.FILES['file']

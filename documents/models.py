@@ -1,16 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 class Property(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     address = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    owner = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE, 
-        null=True,  # Allow NULL in database
-        blank=True  # Allow blank in forms
-    )
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.address
@@ -23,18 +20,21 @@ class Document(models.Model):
         ('other', 'Other'),
     ]
 
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='documents')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='documents', null=True, blank=True)  # Made optional
     title = models.CharField(max_length=255)
     document_type = models.CharField(max_length=20, choices=DOCUMENT_TYPES)
     file = models.FileField(upload_to='property_documents/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # Make uploaded_by optional
+    uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     file_size = models.IntegerField()
     mime_type = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.title} - {self.property.address}"
+        if self.property:
+            return f"{self.title} - {self.property.address}"
+        return self.title
 
     class Meta:
         ordering = ['-uploaded_at']
