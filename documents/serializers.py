@@ -24,10 +24,11 @@ class DocumentSerializer(serializers.ModelSerializer):
 
     def validate_property(self, value):
         if value:
-            try:
-                return uuid.UUID(str(value))
-            except ValueError:
-                raise serializers.ValidationError("Invalid UUID format")
+            return value
+            # try:
+            #     return uuid.UUID(str(value))
+            # except ValueError:
+            #     raise serializers.ValidationError("Invalid UUID format")
         return None
 
     def get_download_url(self, obj):
