@@ -13,7 +13,7 @@ class PropertySerializer(serializers.ModelSerializer):
 class DocumentSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
     download_url = serializers.SerializerMethodField()
-    property = serializers.UUIDField(required=False, allow_null=True)
+    property = serializers.CharField(required=False, allow_null=True, max_length=255)
 
     class Meta:
         model = Document
